@@ -1,4 +1,6 @@
 import React, { useState, useMemo } from 'react';
+import { FaReact, FaNode, FaPython, FaJs, FaDatabase } from 'react-icons/fa';
+import { SiNextdotjs, SiDjango, SiMongodb, SiPostgresql } from 'react-icons/si';
 import ProjectModal from './ProjectModal';
 
 const ProjectsWindow = () => {
@@ -75,7 +77,7 @@ const ProjectsWindow = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filter, setFilter] = useState("all");
-  const [showAll, setShowAll] = useState(false);
+  const [showAllProjects, setShowAllProjects] = useState(false);
 
   // Filter projects based on selected filter
   const filteredProjects = useMemo(() => {
@@ -85,8 +87,8 @@ const ProjectsWindow = () => {
     );
   }, [filter]);
 
-  // Get projects to display (first 3 or all if showAll is true)
-  const displayedProjects = showAll ? filteredProjects : filteredProjects.slice(0, 3);
+  // Get projects to display (first 3 or all if showAllProjects is true)
+  const displayedProjects = showAllProjects ? filteredProjects : filteredProjects.slice(0, 3);
 
   const openModal = (project) => {
     setSelectedProject(project);
@@ -98,21 +100,64 @@ const ProjectsWindow = () => {
     setSelectedProject(null);
   };
 
-  // Available filters
+  // Icon mapping
+  const getFilterIcon = (filterId) => {
+    switch (filterId) {
+      case "frontend":
+        return <FaReact className="text-blue-500" />;
+      case "backend":
+        return <FaDatabase className="text-green-500" />;
+      case "full stack":
+        return <FaNode className="text-green-700" />;
+      case "nextjs":
+        return <SiNextdotjs className="text-black" />;
+      case "reactjs":
+        return <FaReact className="text-blue-500" />;
+      case "django":
+        return <SiDjango className="text-green-800" />;
+      case "javascript":
+        return <FaJs className="text-yellow-500" />;
+      default:
+        return null;
+    }
+  };
+
+  // Available filters with icons
   const filters = [
-    { id: "all", label: "All Projects" },
-    { id: "frontend", label: "Frontend" },
-    { id: "backend", label: "Backend" },
-    { id: "full stack", label: "Full Stack" },
-    { id: "nextjs", label: "Next.js" },
-    { id: "reactjs", label: "React.js" },
-    { id: "django", label: "Django" },
-    { id: "javascript", label: "JavaScript" }
+    { id: "all", label: "All Projects", icon: null },
+    { id: "frontend", label: "Frontend", icon: getFilterIcon("frontend") },
+    { id: "backend", label: "Backend", icon: getFilterIcon("backend") },
+    { id: "full stack", label: "Full Stack", icon: getFilterIcon("full stack") },
+    { id: "nextjs", label: "Next.js", icon: getFilterIcon("nextjs") },
+    { id: "reactjs", label: "React.js", icon: getFilterIcon("reactjs") },
+    { id: "django", label: "Django", icon: getFilterIcon("django") },
+    { id: "javascript", label: "JavaScript", icon: getFilterIcon("javascript") }
   ];
 
   return (
     <div className="p-6 h-full overflow-auto bg-amber-50">
-      <div className="flex flex-col h-full">
+      <style jsx>{`
+        /* Custom Scrollbar for Projects Window */
+        .projects-container::-webkit-scrollbar {
+          width: 12px;
+        }
+
+        .projects-container::-webkit-scrollbar-track {
+          background: #fef3c7; /* Amber background */
+        }
+
+        .projects-container::-webkit-scrollbar-thumb {
+          background: #f59e0b; /* Header color (amber-500) */
+          border-radius: 6px;
+          border: 2px solid #fef3c7; /* Amber background */
+        }
+
+        .projects-container::-webkit-scrollbar-thumb:hover {
+          background: #d97706; /* Darker amber on hover */
+        }
+      `}</style>
+      
+      <div className="flex flex-col h-full projects-container">
         {/* Header Section */}
         <div className="mb-8 text-center">
           <h2 className="text-3xl font-black text-black mb-4 uppercase border-b-4 border-black pb-2 inline-block">
@@ -124,22 +169,27 @@ const ProjectsWindow = () => {
           </p>
         </div>
 
-        {/* Filter Buttons */}
+        {/* Filter Buttons - Customized with red background */}
         <div className="mb-8 flex flex-wrap gap-2 justify-center">
           {filters.map((filt) => (
             <button
               key={filt.id}
-              className={`px-4 py-2 font-bold border-2 border-black text-sm ${
+              className={`px-4 py-2 font-bold border-2 border-black text-sm flex items-center gap-2 ${
                 filter === filt.id 
-                  ? 'bg-blue-500 text-white' 
-                  : 'bg-white hover:bg-gray-100'
+                  ? 'bg-red-200 text-black shadow-[4px_4px_0_0_#000]' 
+                  : 'bg-red-100 text-black hover:bg-red-200'
               }`}
               onClick={() => {
                 setFilter(filt.id);
-                setShowAll(false); // Reset showAll when filter changes
+                setShowAllProjects(false); // Reset showAllProjects when filter changes
               }}
             >
-              {filt.label}
+              <span>{filt.label}</span>
+              {filt.icon && (
+                <span className="text-xl">
+                  {filt.icon}
+                </span>
+              )}
             </button>
           ))}
         </div>
@@ -152,9 +202,9 @@ const ProjectsWindow = () => {
               className="border-4 border-black shadow-[8px_8px_0_0_#000] bg-white p-6 transform hover:translate-x-1 hover:translate-y-1 transition-transform duration-300 cursor-pointer relative"
               onClick={() => openModal(project)}
             >
-              {/* Work-in-progress indicator */}
+              {/* Work-in-progress indicator - moved to bottom-right */}
               {project.status === "work-in-progress" && (
-                <div className="absolute top-4 right-4">
+                <div className="absolute bottom-4 right-4">
                   <div className="relative">
                     <div className="w-4 h-4 bg-green-500 rounded-full"></div>
                     <div className="absolute top-0 left-0 w-4 h-4 bg-green-500 rounded-full animate-ping opacity-75"></div>
@@ -184,13 +234,13 @@ const ProjectsWindow = () => {
                   {project.technologies.slice(0, 3).map((tech, index) => (
                     <span 
                       key={index} 
-                      className="text-xs font-bold bg-blue-100 border-2 border-black px-2 py-1"
+                      className="text-xs font-bold bg-blue-100 border-2 border-black px-2 py-1 rounded"
                     >
                       {tech}
                     </span>
                   ))}
                   {project.technologies.length > 3 && (
-                    <span className="text-xs font-bold bg-gray-200 border-2 border-black px-2 py-1">
+                    <span className="text-xs font-bold bg-gray-200 border-2 border-black px-2 py-1 rounded">
                       +{project.technologies.length - 3} more
                     </span>
                   )}
@@ -200,7 +250,7 @@ const ProjectsWindow = () => {
               {/* Project Links */}
               <div className="flex gap-4 mt-4">
                 <button 
-                  className="text-sm font-bold border-2 border-black px-4 py-2 bg-gray-800 text-white hover:bg-gray-700 transition-colors"
+                  className="text-sm font-bold border-2 border-black px-4 py-2 bg-gray-800 text-white hover:bg-gray-700 transition-colors rounded"
                   onClick={(e) => {
                     e.stopPropagation();
                     // Handle GitHub link
@@ -209,7 +259,7 @@ const ProjectsWindow = () => {
                   GitHub
                 </button>
                 <button 
-                  className="text-sm font-bold border-2 border-black px-4 py-2 bg-green-500 text-white hover:bg-green-400 transition-colors"
+                  className="text-sm font-bold border-2 border-black px-4 py-2 bg-green-500 text-white hover:bg-green-400 transition-colors rounded"
                   onClick={(e) => {
                     e.stopPropagation();
                     // Handle live demo link
@@ -222,51 +272,40 @@ const ProjectsWindow = () => {
           ))}
         </div>
 
-        {/* Show More Button */}
-        {!showAll && filteredProjects.length > 3 && (
+        {/* View More Projects Button */}
+        {!showAllProjects && filteredProjects.length > 3 && (
           <div className="mt-8 text-center">
             <button
-              className="font-bold border-2 border-black px-6 py-3 bg-blue-500 text-white hover:bg-blue-400 transition-colors"
-              onClick={() => setShowAll(true)}
+              className="font-bold border-2 border-black px-6 py-3 bg-amber-500 text-black hover:bg-amber-600 transition-colors shadow-[4px_4px_0_0_#000] rounded"
+              onClick={() => setShowAllProjects(true)}
             >
-              Show More Projects ({filteredProjects.length - 3} more)
+              View More Projects ({filteredProjects.length - 3} more)
             </button>
           </div>
         )}
 
         {/* Show Less Button when showing all */}
-        {showAll && (
+        {showAllProjects && (
           <div className="mt-8 text-center">
             <button
-              className="font-bold border-2 border-black px-6 py-3 bg-gray-500 text-white hover:bg-gray-400 transition-colors"
-              onClick={() => setShowAll(false)}
+              className="font-bold border-2 border-black px-6 py-3 bg-gray-500 text-white hover:bg-gray-600 transition-colors rounded"
+              onClick={() => setShowAllProjects(false)}
             >
               Show Less
             </button>
           </div>
         )}
-
-        {/* Call to Action */}
-        <div className="mt-12 text-center">
-          <div className="border-4 border-black shadow-[4px_4px_0_0_#000] bg-blue-100 p-6 inline-block">
-            <h3 className="text-xl font-bold mb-2">Want to see more?</h3>
-            <p className="mb-4">Check out my GitHub for additional projects and contributions.</p>
-            <a 
-              href="#" 
-              className="font-bold border-2 border-black px-6 py-3 bg-black text-white hover:bg-gray-800 transition-colors inline-block"
-            >
-              View All Projects
-            </a>
-          </div>
-        </div>
       </div>
 
-      {/* Project Modal */}
+      {/* Blur Overlay and Project Modal */}
       {isModalOpen && (
-        <ProjectModal 
-          project={selectedProject} 
-          onClose={closeModal} 
-        />
+        <>
+          <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40"></div>
+          <ProjectModal 
+            project={selectedProject} 
+            onClose={closeModal} 
+          />
+        </>
       )}
     </div>
   );

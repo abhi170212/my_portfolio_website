@@ -1,7 +1,24 @@
 import React from 'react';
+import { FaReact, FaNode, FaPython, FaJs, FaDatabase } from 'react-icons/fa';
+import { SiNextdotjs, SiDjango, SiMongodb, SiPostgresql } from 'react-icons/si';
 
 const ProjectModal = ({ project, onClose }) => {
   if (!project) return null;
+
+  // Icon mapping for technologies
+  const getTechnologyIcon = (tech) => {
+    const techLower = tech.toLowerCase();
+    if (techLower.includes('react')) return <FaReact className="text-blue-500" />;
+    if (techLower.includes('node')) return <FaNode className="text-green-700" />;
+    if (techLower.includes('javascript')) return <FaJs className="text-yellow-500" />;
+    if (techLower.includes('python')) return <FaPython className="text-blue-400" />;
+    if (techLower.includes('django')) return <SiDjango className="text-green-800" />;
+    if (techLower.includes('mongodb')) return <SiMongodb className="text-green-500" />;
+    if (techLower.includes('postgresql')) return <SiPostgresql className="text-blue-600" />;
+    if (techLower.includes('database')) return <FaDatabase className="text-green-500" />;
+    if (techLower.includes('next')) return <SiNextdotjs className="text-black" />;
+    return null;
+  };
 
   // Project-specific details
   const projectDetails = {
@@ -81,13 +98,13 @@ const ProjectModal = ({ project, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
-      <div className="bg-amber-50 border-4 border-black shadow-[12px_12px_0_0_#000] w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+      <div className="bg-amber-50 border-4 border-black shadow-[12px_12px_0_0_#000] w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-lg">
         {/* Modal Header */}
         <div className="border-b-4 border-black p-4 flex justify-between items-center">
           <h2 className="text-2xl font-black uppercase">{project.title}</h2>
           <button 
             onClick={onClose}
-            className="text-2xl font-black border-2 border-black w-8 h-8 flex items-center justify-center bg-red-500 text-white hover:bg-red-600"
+            className="text-2xl font-black border-2 border-black w-8 h-8 flex items-center justify-center bg-red-500 text-white hover:bg-red-600 rounded-full transition-colors"
           >
             ×
           </button>
@@ -158,14 +175,22 @@ const ProjectModal = ({ project, onClose }) => {
           <div className="mb-8">
             <h3 className="text-xl font-bold mb-4 border-l-4 border-black pl-2">Technologies Used</h3>
             <div className="flex flex-wrap gap-2 mb-4">
-              {project.technologies.map((tech, index) => (
-                <span 
-                  key={index} 
-                  className="text-sm font-bold bg-blue-100 border-2 border-black px-3 py-1"
-                >
-                  {tech}
-                </span>
-              ))}
+              {project.technologies.map((tech, index) => {
+                const icon = getTechnologyIcon(tech);
+                return (
+                  <span 
+                    key={index} 
+                    className="text-sm font-bold bg-blue-100 border-2 border-black px-3 py-1 rounded flex items-center gap-2"
+                  >
+                    <span>{tech}</span>
+                    {icon && (
+                      <span className="text-lg">
+                        {icon}
+                      </span>
+                    )}
+                  </span>
+                );
+              })}
             </div>
           </div>
 
@@ -173,19 +198,19 @@ const ProjectModal = ({ project, onClose }) => {
           <div className="flex flex-wrap gap-4">
             <a 
               href={project.githubUrl} 
-              className="font-bold border-2 border-black px-6 py-3 bg-gray-800 text-white hover:bg-gray-700 transition-colors"
+              className="font-bold border-2 border-black px-6 py-3 bg-gray-800 text-white hover:bg-gray-700 transition-colors rounded"
             >
               View Source Code
             </a>
             <a 
               href={project.liveUrl} 
-              className="font-bold border-2 border-black px-6 py-3 bg-green-500 text-white hover:bg-green-400 transition-colors"
+              className="font-bold border-2 border-black px-6 py-3 bg-green-500 text-white hover:bg-green-400 transition-colors rounded"
             >
               Live Demo
             </a>
             <button 
               onClick={onClose}
-              className="font-bold border-2 border-black px-6 py-3 bg-blue-500 text-white hover:bg-blue-400 transition-colors"
+              className="font-bold border-2 border-black px-6 py-3 bg-red-500 text-white hover:bg-red-600 transition-colors rounded"
             >
               Close
             </button>
