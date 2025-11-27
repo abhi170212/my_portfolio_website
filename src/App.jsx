@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Window from './components/Window';
 import AboutWindow from './components/About/AboutWindow';
 import ProjectsWindow from './components/Projects/ProjectsWindow';
+import SkillsWindow from './components/Skills/SkillsWindow';
 import './App.css';
 
 function App() {
@@ -141,6 +142,12 @@ function App() {
     if (folder.name === "Projects") {
       return (
         <ProjectsWindow />
+      );
+    }
+    
+    if (folder.name === "Skills") {
+      return (
+        <SkillsWindow />
       );
     }
     

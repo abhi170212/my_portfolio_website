@@ -5,7 +5,7 @@ import { SiNextdotjs, SiDjango, SiMongodb, SiPostgresql } from 'react-icons/si';
 const ProjectModal = ({ project, onClose }) => {
   if (!project) return null;
 
-  // Icon mapping for technologies
+  
   const getTechnologyIcon = (tech) => {
     const techLower = tech.toLowerCase();
     if (techLower.includes('react')) return <FaReact className="text-blue-500" />;
@@ -20,7 +20,7 @@ const ProjectModal = ({ project, onClose }) => {
     return null;
   };
 
-  // Project-specific details
+ 
   const projectDetails = {
     1: {
       features: [
@@ -97,10 +97,10 @@ const ProjectModal = ({ project, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
-      <div className="bg-amber-50 border-4 border-black shadow-[12px_12px_0_0_#000] w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-lg">
+    <div className="fixed inset-0 bg-amber-100 bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-white border-4 border-black shadow-[12px_12px_0_0_#000] w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-lg">
         {/* Modal Header */}
-        <div className="border-b-4 border-black p-4 flex justify-between items-center">
+        <div className="border-b-4 border-black p-4 flex justify-between items-center bg-[#E8FFEA]">
           <h2 className="text-2xl font-black uppercase">{project.title}</h2>
           <button 
             onClick={onClose}
