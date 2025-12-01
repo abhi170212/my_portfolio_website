@@ -1,0 +1,243 @@
+import React from 'react';
+
+const HobbiesWindow = () => {
+  return (
+    <div className="p-6 h-full overflow-auto bg-amber-50">
+      <div className="flex flex-col h-full">
+        {/* Advanced Neo-Brutalist Banner */}
+        <div className="border-16 border-black bg-white shadow-[24px_24px_0_0_#000] mb-8 relative overflow-hidden min-h-[600px]">
+          {/* Distorted grid background */}
+          <div className="absolute inset-0 opacity-15">
+            <svg width="100%" height="100%">
+              <defs>
+                <pattern id="distorted-grid" width="60" height="60" patternUnits="userSpaceOnUse">
+                  <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#000" strokeWidth="1.5"/>
+                  <path d="M 20 0 Q 30 10 40 0" fill="none" stroke="#000" strokeWidth="1"/>
+                  <path d="M 0 20 Q 10 30 0 40" fill="none" stroke="#000" strokeWidth="1"/>
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#distorted-grid)" />
+            </svg>
+          </div>
+          
+          {/* Organic brutalist curves */}
+          <div className="absolute top-1/5 left-1/10 w-40 h-40 border-8 border-lime-400 rounded-full opacity-30 transform rotate-12"></div>
+          <div className="absolute bottom-1/4 right-1/6 w-32 h-32 border-8 border-pink-500 transform rotate-45 opacity-30"></div>
+          <div className="absolute top-2/5 right-1/5 w-24 h-24 border-8 border-purple-500 rounded-full opacity-30"></div>
+          <div className="absolute bottom-1/3 left-1/4 w-28 h-28 border-8 border-yellow-400 transform -rotate-12 opacity-30"></div>
+          
+          {/* Particle explosions */}
+          <div className="absolute top-1/6 left-1/3 w-4 h-4 bg-lime-400 rounded-full"></div>
+          <div className="absolute top-2/3 right-1/4 w-6 h-6 bg-pink-500 rounded-full"></div>
+          <div className="absolute bottom-1/4 left-1/5 w-3 h-3 bg-purple-500 rounded-full"></div>
+          <div className="absolute top-1/3 right-1/3 w-5 h-5 bg-yellow-400 rounded-full"></div>
+          
+          {/* Dynamic Arrows */}
+          {/* Zigzag lightning bolt */}
+          <div className="absolute top-1/4 left-1/8">
+            <svg width="80" height="80" viewBox="0 0 80 80">
+              <polyline points="10,10 30,30 20,50 40,70" fill="none" stroke="#lime" strokeWidth="4" />
+            </svg>
+          </div>
+          
+          {/* Curved cyber arrow */}
+          <div className="absolute top-3/4 right-1/6">
+            <svg width="70" height="70" viewBox="0 0 70 70">
+              <path d="M 10 35 Q 35 10 60 35 Q 35 60 10 35" fill="none" stroke="#pink" strokeWidth="4" />
+              <polygon points="55,30 65,35 55,40" fill="#pink" />
+            </svg>
+          </div>
+          
+          {/* Brutalist triangle cluster */}
+          <div className="absolute bottom-1/5 left-1/4">
+            <svg width="90" height="90" viewBox="0 0 90 90">
+              <polygon points="45,10 80,80 10,80" fill="none" stroke="#purple" strokeWidth="4" />
+              <polygon points="30,30 60,60 30,60" fill="none" stroke="#purple" strokeWidth="3" />
+            </svg>
+          </div>
+          
+          {/* Rotating chevrons */}
+          <div className="absolute top-1/3 right-1/8">
+            <svg width="60" height="60" viewBox="0 0 60 60">
+              <polyline points="15,20 30,35 45,20" fill="none" stroke="#yellow" strokeWidth="4" />
+              <polyline points="15,30 30,45 45,30" fill="none" stroke="#yellow" strokeWidth="4" />
+            </svg>
+          </div>
+          
+          {/* Plasma streaks */}
+          <div className="absolute bottom-1/4 right-1/3">
+            <svg width="100" height="20" viewBox="0 0 100 20">
+              <line x1="0" y1="10" x2="100" y2="10" stroke="#lime" strokeWidth="4" strokeDasharray="10,5" />
+            </svg>
+          </div>
+          
+          {/* Geometric pinheads */}
+          <div className="absolute top-2/5 left-3/4">
+            <svg width="50" height="50" viewBox="0 0 50 50">
+              <circle cx="25" cy="25" r="8" fill="#pink" stroke="#000" strokeWidth="3" />
+              <line x1="25" y1="5" x2="25" y2="15" stroke="#000" strokeWidth="3" />
+              <line x1="25" y1="35" x2="25" y2="45" stroke="#000" strokeWidth="3" />
+              <line x1="5" y1="25" x2="15" y2="25" stroke="#000" strokeWidth="3" />
+              <line x1="35" y1="25" x2="45" y2="25" stroke="#000" strokeWidth="3" />
+            </svg>
+          </div>
+          
+          {/* Main Content Container - With background for text */}
+          <div className="flex flex-col md:flex-row items-center justify-between h-full p-16 relative z-10">
+            {/* Left Icon - Football with visual treatment */}
+            <div className="mb-8 md:mb-0 transform -rotate-6 hover:rotate-6 transition-transform duration-500">
+              <div className="border-8 border-black bg-lime-400 p-10 shadow-[16px_16px_0_0_#000] relative overflow-hidden">
+                {/* Hexagonal neon green backdrop */}
+                <div className="absolute inset-0 bg-gradient-to-br from-lime-300 to-lime-500 opacity-20"></div>
+                
+                {/* Spinning 3D chrome football with motion trails */}
+                <div className="relative">
+                  <svg width="140" height="140" viewBox="0 0 140 140" className="animate-spin-slow">
+                    <circle cx="70" cy="70" r="60" fill="none" stroke="#000" strokeWidth="6"/>
+                    <polygon points="70,20 100,70 70,120 40,70" fill="none" stroke="#000" strokeWidth="6"/>
+                    <line x1="70" y1="20" x2="70" y2="120" stroke="#000" strokeWidth="6"/>
+                    <line x1="40" y1="70" x2="100" y2="70" stroke="#000" strokeWidth="6"/>
+                    <circle cx="70" cy="70" r="15" fill="#000" />
+                  </svg>
+                  
+                  {/* Motion trails */}
+                  <div className="absolute top-1/2 left-1/2 w-4 h-4 bg-lime-300 rounded-full transform -translate-x-16 -translate-y-2 animate-pulse"></div>
+                  <div className="absolute top-1/2 left-1/2 w-3 h-3 bg-lime-300 rounded-full transform translate-x-12 -translate-y-8 animate-pulse delay-300"></div>
+                </div>
+                
+                {/* Speed lines */}
+                <div className="absolute top-1/2 right-0 w-16 h-1 bg-lime-500 transform -translate-y-1/2"></div>
+                <div className="absolute top-1/3 right-0 w-12 h-1 bg-lime-500 transform -translate-y-1/2 rotate-12"></div>
+                <div className="absolute top-2/3 right-0 w-14 h-1 bg-lime-500 transform -translate-y-1/2 -rotate-12"></div>
+              </div>
+            </div>
+            
+            {/* Center Text - With background */}
+            <div className="flex-1 mx-12 text-center">
+              <div className="bg-gray-900 border-8 border-black shadow-[12px_12px_0_0_#000] p-8 inline-block">
+                <p className="text-3xl md:text-4xl font-black text-white leading-relaxed tracking-tight uppercase"
+                   style={{
+                     fontFamily: '"Roboto Mono", monospace',
+                     textShadow: '4px 4px 0px #000',
+                     letterSpacing: '-0.01em',
+                     lineHeight: '1.5'
+                   }}>
+                  My hobbies include football, music, and reading. These activities help me unwind, explore creativity, and continuously learn new things.
+                </p>
+              </div>
+            </div>
+            
+            {/* Right Icons Group with Visual Treatments */}
+            <div className="flex flex-col items-center">
+              {/* Music Icon with pulsating vinyl record waves */}
+              <div className="mb-8 transform rotate-3 hover:-rotate-3 transition-transform duration-500">
+                <div className="border-8 border-black bg-pink-500 p-8 shadow-[16px_16px_0_0_#000] relative overflow-hidden">
+                  {/* Pulsating vinyl record waves */}
+                  <div className="absolute inset-0">
+                    <div className="absolute top-1/2 left-1/2 w-32 h-32 rounded-full border-4 border-white opacity-30 animate-ping"></div>
+                    <div className="absolute top-1/2 left-1/2 w-24 h-24 rounded-full border-4 border-white opacity-50 animate-ping delay-300"></div>
+                    <div className="absolute top-1/2 left-1/2 w-16 h-16 rounded-full border-4 border-white opacity-70 animate-ping delay-500"></div>
+                  </div>
+                  
+                  {/* Equalizer bars */}
+                  <div className="absolute top-4 left-4 flex space-x-1">
+                    <div className="w-2 h-6 bg-white animate-bounce"></div>
+                    <div className="w-2 h-8 bg-white animate-bounce delay-100"></div>
+                    <div className="w-2 h-4 bg-white animate-bounce delay-200"></div>
+                    <div className="w-2 h-10 bg-white animate-bounce delay-75"></div>
+                    <div className="w-2 h-6 bg-white animate-bounce delay-150"></div>
+                  </div>
+                  
+                  {/* Vinyl record */}
+                  <svg width="120" height="120" viewBox="0 0 120 120" className="relative z-10">
+                    <circle cx="60" cy="60" r="50" fill="none" stroke="black" strokeWidth="6"/>
+                    <circle cx="60" cy="60" r="35" fill="none" stroke="black" strokeWidth="4"/>
+                    <circle cx="60" cy="60" r="15" fill="none" stroke="black" strokeWidth="4"/>
+                    <circle cx="60" cy="60" r="8" fill="black" />
+                  </svg>
+                </div>
+              </div>
+              
+              {/* Books Icon with glowing page flips */}
+              <div className="transform -rotate-2 hover:rotate-2 transition-transform duration-500">
+                <div className="border-8 border-black bg-yellow-400 p-8 shadow-[16px_16px_0_0_#000] relative overflow-hidden">
+                  {/* Glowing page flips */}
+                  <div className="absolute top-6 right-6 w-8 h-12 bg-white border-2 border-black transform rotate-12 shadow-lg">
+                    <div className="absolute top-2 left-2 w-1 h-8 bg-yellow-300"></div>
+                  </div>
+                  <div className="absolute top-8 right-4 w-8 h-12 bg-white border-2 border-black transform rotate-6 shadow-md">
+                    <div className="absolute top-2 left-2 w-1 h-8 bg-yellow-300"></div>
+                  </div>
+                  
+                  {/* Angular book stack */}
+                  <svg width="120" height="120" viewBox="0 0 120 120" className="relative z-10">
+                    <rect x="20" y="30" width="80" height="20" fill="none" stroke="black" strokeWidth="6"/>
+                    <rect x="25" y="55" width="70" height="15" fill="none" stroke="black" strokeWidth="5"/>
+                    <rect x="30" y="75" width="60" height="15" fill="none" stroke="black" strokeWidth="5"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Chrome reflections and scanlines */}
+          <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+            <div className="absolute top-1/4 left-1/4 w-32 h-1 bg-white opacity-30 transform rotate-45"></div>
+            <div className="absolute bottom-1/3 right-1/3 w-24 h-1 bg-white opacity-20 transform -rotate-12"></div>
+            
+            {/* Scanlines effect */}
+            <div className="absolute inset-0 opacity-5">
+              {Array.from({ length: 30 }).map((_, i) => (
+                <div key={i} className="absolute w-full h-px bg-black" style={{ top: `${i * 3.33}%` }}></div>
+              ))}
+            </div>
+          </div>
+        </div>
+        
+        {/* Hobby Details Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          {/* Football Card */}
+          <div className="border-4 border-black bg-lime-100 shadow-[6px_6px_0_0_#000] p-6 transform hover:-translate-y-2 transition-all">
+            <div className="text-5xl mb-4">⚽</div>
+            <h3 className="text-2xl font-black text-black mb-2 uppercase">Football</h3>
+            <p className="text-gray-800 font-bold">
+              Playing and watching football brings out my competitive spirit and connects me with friends.
+            </p>
+          </div>
+          
+          {/* Music Card */}
+          <div className="border-4 border-black bg-pink-100 shadow-[6px_6px_0_0_#000] p-6 transform hover:-translate-y-2 transition-all">
+            <div className="text-5xl mb-4">🎵</div>
+            <h3 className="text-2xl font-black text-black mb-2 uppercase">Music</h3>
+            <p className="text-gray-800 font-bold">
+              Discovering new genres and artists helps set my mood and fuels my creativity.
+            </p>
+          </div>
+          
+          {/* Books Card */}
+          <div className="border-4 border-black bg-yellow-100 shadow-[6px_6px_0_0_#000] p-6 transform hover:-translate-y-2 transition-all">
+            <div className="text-5xl mb-4">📖</div>
+            <h3 className="text-2xl font-black text-black mb-2 uppercase">Books</h3>
+            <p className="text-gray-800 font-bold">
+              Diving into interesting books feeds my imagination and expands my perspective.
+            </p>
+          </div>
+        </div>
+        
+        {/* Brutalist Quote */}
+        <div className="border-4 border-black bg-gray-900 text-white p-6 shadow-[8px_8px_0_0_#000] mt-auto">
+          <blockquote className="text-2xl font-black text-center uppercase tracking-tighter"
+                     style={{ 
+                       fontFamily: '"Roboto Mono", monospace',
+                       textShadow: '3px 3px 0px #000',
+                       letterSpacing: '-0.03em'
+                     }}>
+            "Hobbies shape our identity beyond work."
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default HobbiesWindow;

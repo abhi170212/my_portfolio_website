@@ -3,6 +3,7 @@ import Window from './components/Window';
 import AboutWindow from './components/About/AboutWindow';
 import ProjectsWindow from './components/Projects/ProjectsWindow';
 import SkillsWindow from './components/Skills/SkillsWindow';
+import HobbiesWindow from './components/Hobbies/HobbiesWindow';
 import './App.css';
 
 function App() {
@@ -25,19 +26,49 @@ function App() {
   const dragImageRef = useRef(null);
   const [windowCounter, setWindowCounter] = useState(0);
   
+  // Multilingual hello phrases
+  const helloPhrases = [
+    { text: "Hello", language: "English" },
+    { text: "Bonjour", language: "French" },
+    { text: "Hola", language: "Spanish" },
+    { text: "Ciao", language: "Italian" },
+    { text: "Hallo", language: "German" },
+    { text: "こんにちは", language: "Japanese" },
+    { text: "Привет", language: "Russian" },
+    { text: "Olá", language: "Portuguese" },
+    { text: "مرحبا", language: "العربية" },
+    { text: "Merhaba", language: "Türkçe" }
+  ];
+  
+  const [currentHelloIndex, setCurrentHelloIndex] = useState(0);
+  const [helloVisible, setHelloVisible] = useState(true);
+  
   // Split folders into columns of 4
   const folderColumns = [];
   for (let i = 0; i < folders.length; i += 4) {
     folderColumns.push(folders.slice(i, i + 4));
   }
 
-  // Rotate through skills for the bouncing quote
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSkillIndex((prevIndex) => (prevIndex + 1) % skills.length);
-    }, 1500); // Change skill every 1.5 seconds
+    }, 1500); 
 
     return () => clearInterval(interval);
+  }, []);
+  
+  
+  useEffect(() => {
+    const helloInterval = setInterval(() => {
+      setHelloVisible(false); // Start disappearing animation
+      setTimeout(() => {
+        setCurrentHelloIndex((prevIndex) => (prevIndex + 1) % helloPhrases.length);
+        setHelloVisible(true); // Reappear with new phrase
+      }, 500); // Wait for disappear animation to complete
+    }, 2000); // Change phrase every 2 seconds
+
+    return () => clearInterval(helloInterval);
   }, []);
   
   // Define dynamic colors for the header text
@@ -49,7 +80,6 @@ function App() {
     const colorInterval = setInterval(() => {
       setHeaderColorIndex((prevIndex) => (prevIndex + 1) % headerColors.length);
     }, 2000); // Change color every 2 seconds
-
     return () => clearInterval(colorInterval);
   }, []);
 
@@ -101,7 +131,7 @@ function App() {
     }, 300); 
   };
 
-  
+
   const closeWindow = (windowId) => {
     setOpenWindows(prev => prev.filter(window => window.id !== windowId));
     if (activeWindowId === windowId) {
@@ -151,6 +181,12 @@ function App() {
       );
     }
     
+    if (folder.name === "Hobbies") {
+      return (
+        <HobbiesWindow />
+      );
+    }
+    
     return (
       <>
         <h2 className="text-2xl font-black text-black mb-4 uppercase border-b-2 border-black pb-2">
@@ -170,7 +206,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-amber-50 font-roboto relative">
+    <div className="min-h-screen bg-gradient-to-br from-amber-100 to-amber-50 p-4 md:p-8">
       {/* Draggable Image */}
       {dragImage.visible && (
         <img
@@ -241,8 +277,19 @@ function App() {
           </div>
           
           {/* Empty Content Area on Right */}
-          <div className="flex-1 flex items-center justify-center">
-            <div className="text-center">
+          <div className="flex-1 flex flex-col items-center justify-start pt-20 mr-42">
+            {/* Animated Hello Text */}
+            <div className="mb-4">
+              <h1 className={`text-5xl font-bold transition-all duration-500 ease-in-out transform ${
+                helloVisible 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-8'
+              }`}>
+                {helloPhrases[currentHelloIndex].text}
+              </h1>
+            </div>
+            
+            <div className="text-center w-full">
               {showText && (
                 <p className={`text-2xl font-bold text-gray-600 transition-all duration-300 ease-in ${
                   textVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 scale-95'
