@@ -2,7 +2,7 @@ import React from 'react';
 
 const ProfileSection = ({ setDragImage }) => {
   return (
-    <div className="mb-8 text-center border-4 border-black shadow-[4px_4px_0_0_#000] bg-blue-100 p-6">
+    <div className="mb-8 text-center border-4 border-black shadow-[4px_4px_0_0_#000] bg-blue-100 p-6 font-roboto">
       <div 
         className="w-32 h-32 rounded-full bg-blue-500 border-4 border-black shadow-[4px_4px_0_0_#000] mx-auto mb-4 cursor-move"
         onMouseDown={(e) => {

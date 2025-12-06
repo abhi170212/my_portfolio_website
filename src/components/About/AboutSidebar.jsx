@@ -38,7 +38,7 @@ const AboutSidebar = ({ folders, openWindows, setOpenWindows, setActiveWindowId,
   };
 
   return (
-    <div className="md:w-1/3 bg-blue-100 border-4 border-black rounded-xl p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+    <div className="md:w-1/3 bg-blue-100 border-4 border-black rounded-xl p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] font-roboto">
       <h3 className="text-2xl font-bold mb-4 border-b-4 border-black pb-2 text-center">Navigation</h3>
       <div className="space-y-4">
         {folders.map((item, index) => (

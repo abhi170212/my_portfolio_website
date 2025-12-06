@@ -1,6 +1,93 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { FaInstagram, FaYoutube, FaFilm, FaVideo, FaCut, FaPalette, FaMicrophone, FaGuitar, FaMusic, FaHeadphones } from 'react-icons/fa';
+import { MdSlowMotionVideo, MdNavigateBefore, MdNavigateNext, MdAudiotrack, MdPiano } from 'react-icons/md';
+import { IoPlay, IoStop } from 'react-icons/io5';
 
 const HobbiesWindow = () => {
+  const videoRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+
+  const videos = [
+    {
+      url: "https://res.cloudinary.com/dxetvbkik/video/upload/v1764609878/videoplayback_aec7u8.mp4",
+      title: "GOAT in Action",
+      poster: "https://res.cloudinary.com/dxetvbkik/image/upload/v1764609878/video-poster.jpg"
+    },
+    {
+      url: "https://res.cloudinary.com/dxetvbkik/video/upload/v1764611495/videoplayback_1_snd1av.mp4",
+      title: "training session at Bernabéu",
+      poster: "https://res.cloudinary.com/dxetvbkik/image/upload/v1764611495/video-poster-1.jpg"
+    },
+    {
+      url: "https://res.cloudinary.com/dxetvbkik/video/upload/v1764611638/videoplayback_2_wl4vr6.mp4",
+      title: "Enkara Messi",
+      poster: "https://res.cloudinary.com/dxetvbkik/image/upload/v1764611638/video-poster-2.jpg"
+    }
+  ];
+
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play()
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch(error => {
+            console.error("Error playing video:", error);
+          });
+      }
+    }
+  };
+
+  const stopVideo = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+      setIsPlaying(false);
+    }
+  };
+
+  const nextVideo = () => {
+    setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videos.length);
+    stopVideo();
+  };
+
+  const prevVideo = () => {
+    setCurrentVideoIndex((prevIndex) => (prevIndex - 1 + videos.length) % videos.length);
+    stopVideo();
+  };
+
+  // Handle video events
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+    const handleEnded = () => setIsPlaying(false);
+
+    video.addEventListener('play', handlePlay);
+    video.addEventListener('pause', handlePause);
+    video.addEventListener('ended', handleEnded);
+
+    return () => {
+      video.removeEventListener('play', handlePlay);
+      video.removeEventListener('pause', handlePause);
+      video.removeEventListener('ended', handleEnded);
+    };
+  }, []);
+
+  // Reset video when changing videos
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+      setIsPlaying(false);
+    }
+  }, [currentVideoIndex]);
+
   return (
     <div className="p-6 h-full overflow-auto bg-amber-50">
       <div className="flex flex-col h-full">
@@ -118,11 +205,10 @@ const HobbiesWindow = () => {
                 <p className="text-3xl md:text-4xl font-black text-white leading-relaxed tracking-tight uppercase"
                    style={{
                      fontFamily: '"Roboto Mono", monospace',
-                     textShadow: '4px 4px 0px #000',
                      letterSpacing: '-0.01em',
                      lineHeight: '1.5'
                    }}>
-                  My hobbies include football, music, and reading. These activities help me unwind, explore creativity, and continuously learn new things.
+                  My hobbies include football, music, and video editing. These activities help me unwind, explore creativity, and continuously learn new things.
                 </p>
               </div>
             </div>
@@ -194,33 +280,612 @@ const HobbiesWindow = () => {
           </div>
         </div>
         
-        {/* Hobby Details Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {/* Football Card */}
-          <div className="border-4 border-black bg-lime-100 shadow-[6px_6px_0_0_#000] p-6 transform hover:-translate-y-2 transition-all">
-            <div className="text-5xl mb-4">⚽</div>
-            <h3 className="text-2xl font-black text-black mb-2 uppercase">Football</h3>
-            <p className="text-gray-800 font-bold">
-              Playing and watching football brings out my competitive spirit and connects me with friends.
-            </p>
+        {/* Football Section - Further Enlarged for Video Display */}
+        <div className="border-16 border-black bg-gradient-to-br from-green-500 to-green-700 shadow-[32px_32px_0_0_#000] mb-8 relative overflow-hidden min-h-[2600px]">
+          {/* Football field background with enhanced graphics */}
+          <div className="absolute inset-0">
+            {/* Enhanced grass texture */}
+            <div className="absolute inset-0 bg-gradient-to-b from-green-600 to-green-800"></div>
+            
+            {/* Football field markings */}
+            <div className="absolute inset-0 border-4 border-white"></div>
+            <div className="absolute top-0 bottom-0 left-1/2 w-1 bg-white transform -translate-x-1/2"></div>
+            <div className="absolute top-1/2 left-1/2 w-24 h-24 border-2 border-white rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+            <div className="absolute top-1/2 left-0 w-28 h-44 border-2 border-white transform -translate-y-1/2"></div>
+            <div className="absolute top-1/2 right-0 w-28 h-44 border-2 border-white transform -translate-y-1/2"></div>
+            
+            {/* Enhanced yard markers */}
+            {Array.from({ length: 9 }).map((_, i) => (
+              <div key={i}>
+                <div className="absolute top-1/4" style={{ left: `${(i + 1) * 10}%` }}>
+                  <div className="w-1 h-6 bg-white"></div>
+                </div>
+                <div className="absolute bottom-1/4" style={{ left: `${(i + 1) * 10}%` }}>
+                  <div className="w-1 h-6 bg-white"></div>
+                </div>
+              </div>
+            ))}
+            
+            {/* Corner flags */}
+            <div className="absolute top-0 left-0 w-8 h-8 border-2 border-white border-t-0 border-l-0 rounded-br-full"></div>
+            <div className="absolute top-0 right-0 w-8 h-8 border-2 border-white border-t-0 border-r-0 rounded-bl-full"></div>
+            <div className="absolute bottom-0 left-0 w-8 h-8 border-2 border-white border-b-0 border-l-0 rounded-tr-full"></div>
+            <div className="absolute bottom-0 right-0 w-8 h-8 border-2 border-white border-b-0 border-r-0 rounded-tl-full"></div>
+            
+            {/* Enhanced grass pattern */}
+            <div className="absolute inset-0 opacity-20">
+              {Array.from({ length: 150 }).map((_, i) => (
+                <div 
+                  key={i} 
+                  className="absolute w-6 h-1 bg-green-900 rounded-full"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    transform: `rotate(${Math.random() * 360}deg)`
+                  }}
+                ></div>
+              ))}
+            </div>
           </div>
           
-          {/* Music Card */}
-          <div className="border-4 border-black bg-pink-100 shadow-[6px_6px_0_0_#000] p-6 transform hover:-translate-y-2 transition-all">
-            <div className="text-5xl mb-4">🎵</div>
-            <h3 className="text-2xl font-black text-black mb-2 uppercase">Music</h3>
-            <p className="text-gray-800 font-bold">
-              Discovering new genres and artists helps set my mood and fuels my creativity.
-            </p>
+          {/* Enhanced graphics elements */}
+          <div className="absolute inset-0">
+            {/* Dynamic Arrows */}
+            <div className="absolute top-1/6 left-1/10 animate-pulse">
+              <svg width="100" height="100" viewBox="0 0 100 100">
+                <polyline points="15,15 40,40 25,65 50,90" fill="none" stroke="#lime" strokeWidth="5" />
+              </svg>
+            </div>
+            
+            <div className="absolute top-3/4 right-1/12 animate-pulse">
+              <svg width="90" height="90" viewBox="0 0 90 90">
+                <path d="M 15 75 Q 45 15 75 75" fill="none" stroke="#red" strokeWidth="5" />
+              </svg>
+            </div>
+            
+            <div className="absolute bottom-1/6 left-1/5 animate-pulse">
+              <svg width="60" height="60" viewBox="0 0 60 60">
+                <polygon points="30,50 50,30 30,10" fill="none" stroke="#lime" strokeWidth="5" />
+              </svg>
+            </div>
+            
+            <div className="absolute bottom-1/3 right-1/4 animate-pulse">
+              <svg width="150" height="25" viewBox="0 0 150 25">
+                <line x1="0" y1="12" x2="150" y2="12" stroke="#red" strokeWidth="5" strokeDasharray="15,8" />
+              </svg>
+            </div>
+            
+            <div className="absolute top-2/5 left-3/5 animate-pulse">
+              <svg width="70" height="70" viewBox="0 0 70 70">
+                <ellipse cx="35" cy="35" rx="20" ry="10" fill="#red" stroke="#000" strokeWidth="4" />
+              </svg>
+            </div>
+            
+            {/* Particle effects */}
+            <div className="absolute top-1/6 left-1/4 w-8 h-8 bg-lime-400 rounded-full animate-pulse"></div>
+            <div className="absolute top-3/4 right-1/5 w-10 h-10 bg-red-500 rounded-full animate-pulse"></div>
+            <div className="absolute bottom-1/3 left-1/6 w-6 h-6 bg-yellow-400 rounded-full animate-pulse"></div>
+            
+            {/* Organic curves */}
+            <div className="absolute top-1/5 left-1/6 w-36 h-36 border-8 border-lime-400 rounded-full opacity-20"></div>
+            <div className="absolute bottom-1/4 right-1/5 w-32 h-32 border-8 border-lime-500 transform rotate-45 opacity-20"></div>
           </div>
           
-          {/* Books Card */}
-          <div className="border-4 border-black bg-yellow-100 shadow-[6px_6px_0_0_#000] p-6 transform hover:-translate-y-2 transition-all">
-            <div className="text-5xl mb-4">📖</div>
-            <h3 className="text-2xl font-black text-black mb-2 uppercase">Books</h3>
-            <p className="text-gray-800 font-bold">
-              Diving into interesting books feeds my imagination and expands my perspective.
-            </p>
+          {/* Content Container with enhanced background */}
+          <div className="relative z-10 p-20 h-full flex flex-col">
+            {/* Personal Football Text with enhanced background */}
+            <div className="text-center mb-16">
+              <div className="bg-black border-8 border-white shadow-[24px_24px_0_0_#000] p-12 inline-block max-w-6xl mx-auto">
+                <p className="text-5xl md:text-6xl font-black text-lime-400 leading-relaxed tracking-tight uppercase mb-12"
+                   style={{
+                     fontFamily: '"Roboto Mono", monospace',
+                     letterSpacing: '-0.02em'
+                   }}>
+                  Football brings out my competitive side – the thrill of the pitch, strategy under pressure, and pure adrenaline. Every match fuels my drive to innovate in sports tech.
+                </p>
+              </div>
+            </div>
+            
+            {/* Messi Quote */}
+            <div className="border-8 border-black bg-yellow-300 p-16 shadow-[28px_28px_0_0_#000] max-w-5xl mx-auto mt-8 mb-16">
+              <blockquote className="text-4xl md:text-5xl font-normal text-gray-900 italic text-center leading-relaxed"
+                         style={{
+                           fontFamily: '"Roboto", sans-serif',
+                           lineHeight: '1.6'
+                         }}>
+                "Football is a team sport, but it is played by individuals who must have the courage to take responsibility."
+              </blockquote>
+              <cite className="block text-right mt-10 text-3xl font-bold text-gray-900" 
+                    style={{
+                      fontFamily: '"Roboto", sans-serif'
+                    }}>
+                — Lionel Messi
+              </cite>
+            </div>
+            
+            {/* Video Player with Slider - Green Themed */}
+            <div className="border-8 border-black bg-green-400 shadow-[28px_28px_0_0_#000] max-w-5xl mx-auto mt-8 mb-16 p-8">
+              <h3 className="text-4xl font-black text-center mb-8 uppercase"
+                  style={{
+                    fontFamily: '"Roboto Mono", monospace'
+                  }}>
+                {videos[currentVideoIndex].title}
+              </h3>
+              <div className="bg-black border-4 border-white relative">
+                <video 
+                  ref={videoRef}
+                  className="w-full h-auto max-h-[700px]"
+                  controls={false}
+                  poster={videos[currentVideoIndex].poster}
+                >
+                  <source 
+                    src={videos[currentVideoIndex].url} 
+                    type="video/mp4" 
+                  />
+                  Your browser does not support the video tag.
+                </video>
+                {/* Play button overlay */}
+                {!isPlaying && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <button 
+                      onClick={togglePlay}
+                      className="border-8 border-black bg-lime-500 text-black font-black text-4xl w-24 h-24 rounded-full shadow-[8px_8px_0_0_#000] transform hover:scale-110 transition-all duration-200 flex items-center justify-center"
+                    >
+                      ▶
+                    </button>
+                  </div>
+                )}
+              </div>
+              
+              {/* Neo-Brutalist Video Controls */}
+              <div className="flex justify-center gap-6 mt-8">
+                <button 
+                  onClick={prevVideo}
+                  className="border-8 border-black bg-lime-500 text-black font-black text-2xl px-8 py-4 shadow-[8px_8px_0_0_#000] transform hover:translate-y-2 transition-all duration-200"
+                >
+                  PREV
+                </button>
+                <button 
+                  onClick={togglePlay}
+                  className="border-8 border-black bg-lime-500 text-black font-black text-2xl px-8 py-4 shadow-[8px_8px_0_0_#000] transform hover:translate-y-2 transition-all duration-200"
+                >
+                  {isPlaying ? 'PAUSE' : 'PLAY'}
+                </button>
+                <button 
+                  onClick={nextVideo}
+                  className="border-8 border-black bg-lime-500 text-black font-black text-2xl px-8 py-4 shadow-[8px_8px_0_0_#000] transform hover:translate-y-2 transition-all duration-200"
+                >
+                  NEXT
+                </button>
+                <button 
+                  onClick={stopVideo}
+                  className="border-8 border-black bg-red-500 text-white font-black text-2xl px-8 py-4 shadow-[8px_8px_0_0_#000] transform hover:translate-y-2 transition-all duration-200"
+                >
+                  STOP
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Video Editing Section */}
+        <div className="border-16 border-black bg-gradient-to-br from-blue-500 to-indigo-700 shadow-[32px_32px_0_0_#000] mb-8 relative overflow-hidden min-h-[1800px]">
+          {/* Video editing background with enhanced graphics */}
+          <div className="absolute inset-0">
+            {/* Enhanced video texture */}
+            <div className="absolute inset-0 bg-gradient-to-b from-blue-600 to-indigo-800"></div>
+            
+            {/* Video editing patterns */}
+            <div className="absolute inset-0 border-4 border-white"></div>
+            
+            {/* Enhanced timeline markers */}
+            {Array.from({ length: 15 }).map((_, i) => (
+              <div key={i}>
+                <div className="absolute top-1/4" style={{ left: `${(i + 1) * 6.5}%` }}>
+                  <div className="w-1 h-6 bg-white"></div>
+                </div>
+                <div className="absolute bottom-1/4" style={{ left: `${(i + 1) * 6.5}%` }}>
+                  <div className="w-1 h-6 bg-white"></div>
+                </div>
+              </div>
+            ))}
+            
+            {/* Enhanced video pattern */}
+            <div className="absolute inset-0 opacity-20">
+              {Array.from({ length: 100 }).map((_, i) => (
+                <div 
+                  key={i} 
+                  className="absolute w-4 h-1 bg-indigo-900 rounded-full"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    transform: `rotate(${Math.random() * 360}deg)`
+                  }}
+                ></div>
+              ))}
+            </div>
+          </div>
+          
+          {/* Enhanced graphics elements */}
+          <div className="absolute inset-0">
+            {/* Dynamic Arrows */}
+            <div className="absolute top-1/6 left-1/10 animate-pulse">
+              <svg width="100" height="100" viewBox="0 0 100 100">
+                <polyline points="15,15 40,40 25,65 50,90" fill="none" stroke="#blue" strokeWidth="5" />
+              </svg>
+            </div>
+            
+            <div className="absolute top-3/4 right-1/12 animate-pulse">
+              <svg width="90" height="90" viewBox="0 0 90 90">
+                <path d="M 15 75 Q 45 15 75 75" fill="none" stroke="#lime" strokeWidth="5" />
+              </svg>
+            </div>
+            
+            <div className="absolute bottom-1/6 left-1/5 animate-pulse">
+              <svg width="60" height="60" viewBox="0 0 60 60">
+                <polygon points="30,50 50,30 30,10" fill="none" stroke="#blue" strokeWidth="5" />
+              </svg>
+            </div>
+            
+            <div className="absolute bottom-1/3 right-1/4 animate-pulse">
+              <svg width="150" height="25" viewBox="0 0 150 25">
+                <line x1="0" y1="12" x2="150" y2="12" stroke="#lime" strokeWidth="5" strokeDasharray="15,8" />
+              </svg>
+            </div>
+            
+            <div className="absolute top-2/5 left-3/5 animate-pulse">
+              <svg width="70" height="70" viewBox="0 0 70 70">
+                <ellipse cx="35" cy="35" rx="20" ry="10" fill="#lime" stroke="#000" strokeWidth="4" />
+              </svg>
+            </div>
+            
+            {/* Particle effects */}
+            <div className="absolute top-1/6 left-1/4 w-8 h-8 bg-blue-400 rounded-full animate-pulse"></div>
+            <div className="absolute top-3/4 right-1/5 w-10 h-10 bg-lime-500 rounded-full animate-pulse"></div>
+            <div className="absolute bottom-1/3 left-1/6 w-6 h-6 bg-indigo-400 rounded-full animate-pulse"></div>
+            
+            {/* Organic curves */}
+            <div className="absolute top-1/5 left-1/6 w-36 h-36 border-8 border-blue-400 rounded-full opacity-20"></div>
+            <div className="absolute bottom-1/4 right-1/5 w-32 h-32 border-8 border-indigo-500 transform rotate-45 opacity-20"></div>
+          </div>
+          
+          {/* Content Container with enhanced background */}
+          <div className="relative z-10 p-20 h-full flex flex-col">
+            {/* Personal Video Editing Text with enhanced background */}
+            <div className="text-center mb-16">
+              <div className="bg-black border-8 border-white shadow-[24px_24px_0_0_#000] p-12 inline-block max-w-6xl mx-auto">
+                <p className="text-5xl md:text-6xl font-black text-blue-400 leading-relaxed tracking-tight uppercase mb-12"
+                   style={{
+                     fontFamily: '"Roboto Mono", monospace',
+                     letterSpacing: '-0.02em'
+                   }}>
+                  Video editing unleashes my creativity – cutting, transitions, and visual effects. Every project is a canvas where I blend storytelling with technical skills.
+                </p>
+              </div>
+            </div>
+            
+            {/* Video Editing Tools Showcase */}
+            <div className="border-8 border-black bg-yellow-300 shadow-[28px_28px_0_0_#000] max-w-6xl mx-auto mt-8 mb-16 p-12">
+              <h3 className="text-4xl font-black text-center mb-16 uppercase"
+                  style={{
+                    fontFamily: '"Roboto Mono", monospace'
+                  }}>
+                Editor of Instagram and YouTube page of <a href="https://www.instagram.com/tosstimetalks/?igsh=MWhtZzQ0MGYwMTIyeg%3D%3D#" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">tosstimestalks</a>
+              </h3>
+              
+              {/* Video Editing Tools Carousel */}
+              <div className="relative h-96 flex items-center justify-center">
+                {/* Carousel Items positioned in a creative layout */}
+                <div className="absolute top-16 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 border-4 border-white rounded-lg bg-black flex items-center justify-center text-4xl">
+                  <FaFilm className="text-white text-6xl" />
+                </div>
+                
+                <div className="absolute top-24 left-1/4 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 border-4 border-white rounded-lg bg-black flex items-center justify-center text-3xl">
+                  <MdSlowMotionVideo className="text-white text-5xl" />
+                </div>
+                
+                <div className="absolute top-24 right-1/4 transform translate-x-1/2 -translate-y-1/2 w-24 h-24 border-4 border-white rounded-lg bg-black flex items-center justify-center text-3xl">
+                  <FaVideo className="text-white text-5xl" />
+                </div>
+                
+                <div className="absolute top-32 left-1/6 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 border-4 border-white rounded-lg bg-black flex items-center justify-center text-2xl">
+                  <MdNavigateNext className="text-white text-4xl" />
+                </div>
+                
+                <div className="absolute top-32 right-1/6 transform translate-x-1/2 -translate-y-1/2 w-20 h-20 border-4 border-white rounded-lg bg-black flex items-center justify-center text-2xl">
+                  <MdNavigateBefore className="text-white text-4xl" />
+                </div>
+                
+                <div className="absolute top-40 left-1/3 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 border-4 border-white rounded-lg bg-black flex items-center justify-center">
+                  <FaCut className="text-white text-3xl" />
+                </div>
+                
+                <div className="absolute top-40 right-1/3 transform translate-x-1/2 -translate-y-1/2 w-16 h-16 border-4 border-white rounded-lg bg-black flex items-center justify-center">
+                  <FaPalette className="text-white text-3xl" />
+                </div>
+              </div>
+              
+              {/* Editing Controls */}
+              {/* Removed prev project, play, next project buttons as requested */}
+            </div>
+            
+            {/* Instagram Editor Section */}
+            <div className="border-8 border-black bg-yellow-300 shadow-[28px_28px_0_0_#000] max-w-6xl mx-auto mt-8 mb-16 p-12">
+              <h3 className="text-4xl font-black text-center mb-16 uppercase"
+                  style={{
+                    fontFamily: '"Roboto Mono", monospace'
+                  }}>
+                Instagram Editor - <a href="https://www.instagram.com/tosstimetalks/?igsh=MWhtZzQ0MGYwMTIyeg%3D%3D#" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">@tosstimestalks</a>
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {/* Instagram Post Preview */}
+                <div className="border-4 border-white bg-black p-4 rounded-lg">
+                  <div className="bg-gradient-to-br from-purple-400 to-pink-400 h-64 flex items-center justify-center text-white text-2xl font-bold rounded">
+                    <FaInstagram className="text-white text-6xl" />
+                  </div>
+                  <div className="mt-4 flex justify-between">
+                    <button className="border-2 border-white bg-purple-600 text-white px-4 py-2 rounded">Like</button>
+                    <button className="border-2 border-white bg-pink-600 text-white px-4 py-2 rounded">Share</button>
+                  </div>
+                </div>
+                
+                {/* Instagram Story Editor */}
+                <div className="border-4 border-white bg-black p-4 rounded-lg">
+                  <div className="bg-gradient-to-br from-yellow-400 to-orange-400 h-64 flex items-center justify-center text-white text-2xl font-bold rounded">
+                    <FaInstagram className="text-white text-6xl" />
+                  </div>
+                  <div className="mt-4 flex justify-between">
+                    <button className="border-2 border-white bg-yellow-600 text-white px-4 py-2 rounded">Text</button>
+                    <button className="border-2 border-white bg-orange-600 text-white px-4 py-2 rounded">Stickers</button>
+                  </div>
+                </div>
+                
+                {/* Instagram Reels Editor */}
+                <div className="border-4 border-white bg-black p-4 rounded-lg">
+                  <div className="bg-gradient-to-br from-blue-400 to-indigo-400 h-64 flex items-center justify-center text-white text-2xl font-bold rounded">
+                    <FaInstagram className="text-white text-6xl" />
+                  </div>
+                  <div className="mt-4 flex justify-between">
+                    <button className="border-2 border-white bg-blue-600 text-white px-4 py-2 rounded">Effects</button>
+                    <button className="border-2 border-white bg-indigo-600 text-white px-4 py-2 rounded">Music</button>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex justify-center gap-6 mt-12">
+                <button 
+                  className="border-8 border-black bg-purple-500 text-black font-black text-2xl px-8 py-4 shadow-[8px_8px_0_0_#000] transform hover:translate-y-2 transition-all duration-200"
+                >
+                  PREV POST
+                </button>
+                <button 
+                  className="border-8 border-black bg-pink-500 text-black font-black text-2xl px-8 py-4 shadow-[8px_8px_0_0_#000] transform hover:translate-y-2 transition-all duration-200"
+                >
+                  EDIT
+                </button>
+                <button 
+                  className="border-8 border-black bg-purple-500 text-black font-black text-2xl px-8 py-4 shadow-[8px_8px_0_0_#000] transform hover:translate-y-2 transition-all duration-200"
+                >
+                  NEXT POST
+                </button>
+              </div>
+            </div>
+            
+            {/* YouTube Editor Section */}
+            <div className="border-8 border-black bg-yellow-300 shadow-[28px_28px_0_0_#000] max-w-6xl mx-auto mt-8 mb-16 p-12">
+              <h3 className="text-4xl font-black text-center mb-16 uppercase"
+                  style={{
+                    fontFamily: '"Roboto Mono", monospace'
+                  }}>
+                YouTube Editor - <a href="https://www.youtube.com/@tosstimetalks" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">@tosstimetalks</a>
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* YouTube Video Editor */}
+                <div className="border-4 border-white bg-black p-4 rounded-lg">
+                  <div className="bg-gradient-to-br from-red-400 to-red-600 h-64 flex items-center justify-center text-white text-2xl font-bold rounded">
+                    <FaYoutube className="text-white text-6xl" />
+                  </div>
+                  <div className="mt-4 flex justify-between">
+                    <button className="border-2 border-white bg-red-600 text-white px-4 py-2 rounded">Cut</button>
+                    <button className="border-2 border-white bg-red-700 text-white px-4 py-2 rounded">Trim</button>
+                    <button className="border-2 border-white bg-red-800 text-white px-4 py-2 rounded">Merge</button>
+                  </div>
+                </div>
+                
+                {/* YouTube Shorts Editor */}
+                <div className="border-4 border-white bg-black p-4 rounded-lg">
+                  <div className="bg-gradient-to-br from-orange-400 to-red-500 h-64 flex items-center justify-center text-white text-2xl font-bold rounded">
+                    <FaYoutube className="text-white text-6xl" />
+                  </div>
+                  <div className="mt-4 flex justify-between">
+                    <button className="border-2 border-white bg-orange-600 text-white px-4 py-2 rounded">Filters</button>
+                    <button className="border-2 border-white bg-red-600 text-white px-4 py-2 rounded">Captions</button>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex justify-center gap-6 mt-12">
+                <button 
+                  className="border-8 border-black bg-red-500 text-black font-black text-2xl px-8 py-4 shadow-[8px_8px_0_0_#000] transform hover:translate-y-2 transition-all duration-200"
+                >
+                  PREV VIDEO
+                </button>
+                <button 
+                  className="border-8 border-black bg-red-600 text-black font-black text-2xl px-8 py-4 shadow-[8px_8px_0_0_#000] transform hover:translate-y-2 transition-all duration-200"
+                >
+                  RENDER
+                </button>
+                <button 
+                  className="border-8 border-black bg-red-500 text-black font-black text-2xl px-8 py-4 shadow-[8px_8px_0_0_#000] transform hover:translate-y-2 transition-all duration-200"
+                >
+                  NEXT VIDEO
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Song Section with Arc Carousel */}
+        <div className="border-16 border-black bg-gradient-to-br from-pink-500 to-purple-700 shadow-[32px_32px_0_0_#000] mb-8 relative overflow-hidden min-h-[1800px]">
+          {/* Music background with enhanced graphics */}
+          <div className="absolute inset-0">
+            {/* Enhanced music texture */}
+            <div className="absolute inset-0 bg-gradient-to-b from-pink-600 to-purple-800"></div>
+            
+            {/* Music wave patterns */}
+            <div className="absolute inset-0 border-4 border-white"></div>
+            
+            {/* Enhanced wave markers */}
+            {Array.from({ length: 15 }).map((_, i) => (
+              <div key={i}>
+                <div className="absolute top-1/4" style={{ left: `${(i + 1) * 6.5}%` }}>
+                  <div className="w-1 h-6 bg-white"></div>
+                </div>
+                <div className="absolute bottom-1/4" style={{ left: `${(i + 1) * 6.5}%` }}>
+                  <div className="w-1 h-6 bg-white"></div>
+                </div>
+              </div>
+            ))}
+            
+            {/* Enhanced music pattern */}
+            <div className="absolute inset-0 opacity-20">
+              {Array.from({ length: 100 }).map((_, i) => (
+                <div 
+                  key={i} 
+                  className="absolute w-4 h-1 bg-purple-900 rounded-full"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    transform: `rotate(${Math.random() * 360}deg)`
+                  }}
+                ></div>
+              ))}
+            </div>
+          </div>
+          
+          {/* Enhanced graphics elements */}
+          <div className="absolute inset-0">
+            {/* Dynamic Arrows */}
+            <div className="absolute top-1/6 left-1/10 animate-pulse">
+              <svg width="100" height="100" viewBox="0 0 100 100">
+                <polyline points="15,15 40,40 25,65 50,90" fill="none" stroke="#pink" strokeWidth="5" />
+              </svg>
+            </div>
+            
+            <div className="absolute top-3/4 right-1/12 animate-pulse">
+              <svg width="90" height="90" viewBox="0 0 90 90">
+                <path d="M 15 75 Q 45 15 75 75" fill="none" stroke="#lime" strokeWidth="5" />
+              </svg>
+            </div>
+            
+            <div className="absolute bottom-1/6 left-1/5 animate-pulse">
+              <svg width="60" height="60" viewBox="0 0 60 60">
+                <polygon points="30,50 50,30 30,10" fill="none" stroke="#pink" strokeWidth="5" />
+              </svg>
+            </div>
+            
+            <div className="absolute bottom-1/3 right-1/4 animate-pulse">
+              <svg width="150" height="25" viewBox="0 0 150 25">
+                <line x1="0" y1="12" x2="150" y2="12" stroke="#lime" strokeWidth="5" strokeDasharray="15,8" />
+              </svg>
+            </div>
+            
+            <div className="absolute top-2/5 left-3/5 animate-pulse">
+              <svg width="70" height="70" viewBox="0 0 70 70">
+                <ellipse cx="35" cy="35" rx="20" ry="10" fill="#lime" stroke="#000" strokeWidth="4" />
+              </svg>
+            </div>
+            
+            {/* Particle effects */}
+            <div className="absolute top-1/6 left-1/4 w-8 h-8 bg-pink-400 rounded-full animate-pulse"></div>
+            <div className="absolute top-3/4 right-1/5 w-10 h-10 bg-lime-500 rounded-full animate-pulse"></div>
+            <div className="absolute bottom-1/3 left-1/6 w-6 h-6 bg-purple-400 rounded-full animate-pulse"></div>
+            
+            {/* Organic curves */}
+            <div className="absolute top-1/5 left-1/6 w-36 h-36 border-8 border-pink-400 rounded-full opacity-20"></div>
+            <div className="absolute bottom-1/4 right-1/5 w-32 h-32 border-8 border-purple-500 transform rotate-45 opacity-20"></div>
+          </div>
+          
+          {/* Content Container with enhanced background */}
+          <div className="relative z-10 p-20 h-full flex flex-col">
+            {/* Personal Music Text with enhanced background */}
+            <div className="text-center mb-16">
+              <div className="bg-black border-8 border-white shadow-[24px_24px_0_0_#000] p-12 inline-block max-w-6xl mx-auto">
+                <p className="text-5xl md:text-6xl font-black text-pink-400 leading-relaxed tracking-tight uppercase mb-12"
+                   style={{
+                     fontFamily: '"Roboto Mono", monospace',
+                     letterSpacing: '-0.02em'
+                   }}>
+                  Music fuels my soul – the rhythm, the lyrics, and the emotions. Every song tells a story and connects me to different cultures and experiences.
+                </p>
+              </div>
+            </div>
+            
+            {/* Arc-Shaped Carousel for Singers */}
+            <div className="border-8 border-black bg-pink-300 shadow-[28px_28px_0_0_#000] max-w-6xl mx-auto mt-8 mb-16 p-12">
+              <h3 className="text-4xl font-black text-center mb-16 uppercase"
+                  style={{
+                    fontFamily: '"Roboto Mono", monospace'
+                  }}>
+                Favorite Artists - <a href="https://www.instagram.com/tosstimetalks/?igsh=MWhtZzQ0MGYwMTIyeg%3D%3D#" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">tosstimestalks</a>
+              </h3>
+              
+              {/* Arc Carousel Container */}
+              <div className="relative h-96 flex items-center justify-center">
+                {/* Arc path visualization */}
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-64 h-64 border-4 border-dashed border-white rounded-t-full opacity-30"></div>
+                
+                {/* Carousel Items positioned in an arc */}
+                <div className="absolute top-16 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 border-4 border-white rounded-full bg-black flex items-center justify-center text-4xl">
+                  <FaMicrophone className="text-white text-6xl" />
+                </div>
+                
+                <div className="absolute top-24 left-1/4 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 border-4 border-white rounded-full bg-black flex items-center justify-center text-3xl">
+                  <FaGuitar className="text-white text-5xl" />
+                </div>
+                
+                <div className="absolute top-24 right-1/4 transform translate-x-1/2 -translate-y-1/2 w-24 h-24 border-4 border-white rounded-full bg-black flex items-center justify-center text-3xl">
+                  <MdPiano className="text-white text-5xl" />
+                </div>
+                
+                <div className="absolute top-32 left-1/6 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 border-4 border-white rounded-full bg-black flex items-center justify-center text-2xl">
+                  <MdAudiotrack className="text-white text-4xl" />
+                </div>
+                
+                <div className="absolute top-32 right-1/6 transform translate-x-1/2 -translate-y-1/2 w-20 h-20 border-4 border-white rounded-full bg-black flex items-center justify-center text-2xl">
+                  <FaMusic className="text-white text-4xl" />
+                </div>
+                
+                <div className="absolute top-40 left-1/3 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 border-4 border-white rounded-full bg-black flex items-center justify-center">
+                  <FaHeadphones className="text-white text-3xl" />
+                </div>
+                
+                <div className="absolute top-40 right-1/3 transform translate-x-1/2 -translate-y-1/2 w-16 h-16 border-4 border-white rounded-full bg-black flex items-center justify-center">
+                  <MdAudiotrack className="text-white text-3xl" />
+                </div>
+              </div>
+              
+              {/* Carousel Controls */}
+              <div className="flex justify-center gap-6 mt-16">
+                <button 
+                  className="border-8 border-black bg-pink-500 text-black font-black text-2xl px-8 py-4 shadow-[8px_8px_0_0_#000] transform hover:translate-y-2 transition-all duration-200"
+                >
+                  PREV
+                </button>
+                <button 
+                  className="border-8 border-black bg-pink-500 text-black font-black text-2xl px-8 py-4 shadow-[8px_8px_0_0_#000] transform hover:translate-y-2 transition-all duration-200"
+                >
+                  PLAY
+                </button>
+                <button 
+                  className="border-8 border-black bg-pink-500 text-black font-black text-2xl px-8 py-4 shadow-[8px_8px_0_0_#000] transform hover:translate-y-2 transition-all duration-200"
+                >
+                  NEXT
+                </button>
+              </div>
+            </div>
           </div>
         </div>
         
@@ -229,13 +894,13 @@ const HobbiesWindow = () => {
           <blockquote className="text-2xl font-black text-center uppercase tracking-tighter"
                      style={{ 
                        fontFamily: '"Roboto Mono", monospace',
-                       textShadow: '3px 3px 0px #000',
                        letterSpacing: '-0.03em'
                      }}>
             "Hobbies shape our identity beyond work."
           </blockquote>
         </div>
       </div>
+      
     </div>
   );
 };

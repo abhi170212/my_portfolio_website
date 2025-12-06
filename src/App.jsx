@@ -4,6 +4,7 @@ import AboutWindow from './components/About/AboutWindow';
 import ProjectsWindow from './components/Projects/ProjectsWindow';
 import SkillsWindow from './components/Skills/SkillsWindow';
 import HobbiesWindow from './components/Hobbies/HobbiesWindow';
+import ConnectWindow from './components/Connect/ConnectWindow';
 import './App.css';
 
 function App() {
@@ -11,7 +12,6 @@ function App() {
     { name: "About", color: "bg-blue-500", content: "Learn more about my background and experience." },
     { name: "Projects", color: "bg-red-500", content: "Explore my portfolio of projects." },
     { name: "Skills", color: "bg-green-500", content: "Discover my technical expertise." },
-    { name: "Certificates", color: "bg-yellow-500", content: "View my professional certifications." },
     { name: "Hobbies", color: "bg-purple-500", content: "Learn about my interests outside work." },
     { name: "Connect", color: "bg-pink-500", content: "Find out how to get in touch with me." }
   ];
@@ -43,10 +43,10 @@ function App() {
   const [currentHelloIndex, setCurrentHelloIndex] = useState(0);
   const [helloVisible, setHelloVisible] = useState(true);
   
-  // Split folders into columns of 4
+  // Split folders into columns of 3 (instead of 4)
   const folderColumns = [];
-  for (let i = 0; i < folders.length; i += 4) {
-    folderColumns.push(folders.slice(i, i + 4));
+  for (let i = 0; i < folders.length; i += 3) {
+    folderColumns.push(folders.slice(i, i + 3));
   }
 
   
@@ -187,6 +187,12 @@ function App() {
       );
     }
     
+    if (folder.name === "Connect") {
+      return (
+        <ConnectWindow />
+      );
+    }
+    
     return (
       <>
         <h2 className="text-2xl font-black text-black mb-4 uppercase border-b-2 border-black pb-2">
@@ -206,7 +212,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-100 to-amber-50 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-amber-100 to-amber-50 p-4 md:p-8 font-roboto">
       {/* Draggable Image */}
       {dragImage.visible && (
         <img
